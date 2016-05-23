@@ -1,0 +1,94 @@
+Steps
+=====
+
+- init Behat
+    - add feature: Start a new game
+        - add scenario: Choose to go first
+            - define Given: I have not started a game yet
+                - introduce entity: Game
+                - introduce repository: GameRepository
+                - create stub for GameRepository
+                - define body for Given method
+            - define When: I start a game as player :playerName
+                - introduce command: StartGameCommand
+                    - add example: it has a game id
+                    - add example: it has a player name
+                - introduce handler: StartGameHandler
+                    - add example: it should start a game
+                - define body for When method
+            - define Then: I should see an empty board
+                - introduce query: GetGameQuery
+                    - add example: it has a game id
+                - introduce handler: GetGameHandler
+                    - add example: it should get a game
+                - introduce entity: Board
+                    - add example: it should start out empty
+                    - add example for Game: it has a board
+                - define body for Then method
+        - add scenario: Make a move
+            - define Given: I have started a game as player :playerName
+                - modify entity: Game
+                    - add example: it has an id
+                - introduce entity: Player
+                    - add example: it has a name
+                    - add example: it can be named o
+                    - add example: it cannot be named y
+                - modify entity: Board
+                    - refactor: use Player instead of symbol
+                - modify entity: Game
+                    - add example: it has a human player
+                - modify handler: GetGameHandler
+                    - modify example: it should get a game
+                - modify handler: StartGameHandler
+                    - modify example: it should start a game
+            - define When: I make a move
+                - introduce command: MakeMoveCommand
+                    - add example: it has a game id
+                    - add example: it has an x value
+                    - add example: it has a y value
+                - introduce handler: MakeMoveHandler
+                    - add example: it should make a move
+            - define Then: I should see a board with one symbol on it
+                - modify entity: Board
+                    - add example: it should have one symbol after a move
+                    - refactor: replace isEmpty with getNumberOfSymbols
+                - modify handler: MakeMoveHandler
+                    - modify example: it should make a move
+    - add feature: Play against the computer
+        - add scenario: Choose to go second
+            - introduce value object: Move
+                - add example: it has an x value
+                - add example: it has a y value
+            - modify entity: Board
+                - refactor: use Move instead of x and y
+            - modify entity: Game
+                - add example: it should make a human move
+            - modify handler: MakeMoveCommand
+                - refactor: pass move to Game instead of Board
+            - modify entity: Game
+                - add example: it has a computer player
+            - introduce service: GameFactory
+                - add example: it should create a game
+                - add example: it should assign a human player
+                - add example: it should assign a computer player
+            - modify handler: StartGameHandler
+                - modify example: it should start a game
+            - introduce service: MoveGenerator
+            - introduce service: MoveGeneratorFactory
+            - modify entity: Player
+                - add example it is first to move when it is x
+                - add example it is not first to move when it is y
+            - modify entity: Game
+                - add example: it should not make a computer if the human is first to move
+                - add example: it should make a computer if the computer is first to move
+            - modify handler: StartGameHandler
+                - modify example: it should start a game
+            - create stub for MoveGenerator
+            - create stub for MoveGeneratorFactory
+        - add scenario: Computer makes the second move
+            - define Then: I should see a board with two symbols on it
+                - define body for Then method
+                - modify entity: Game
+                    - add example: it should make a computer move after a human move
+        - modify scenario: Choose to go first
+            - define Then: I should see a board with at least one symbol on it
