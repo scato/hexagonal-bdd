@@ -1,9 +1,9 @@
-Feature: Play against the computer
+Feature: Play against a computer
   In order to practice by myself
   As a player
-  I want to play against the computer
+  I need to play against a computer
 
-  Scenario: Choose to go second
+  Scenario: Computer makes the first move
     Given I have not started a game yet
     When I start a game as player "O"
     Then I should see a board with one symbol on it

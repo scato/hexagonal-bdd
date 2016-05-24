@@ -1,7 +1,7 @@
 Feature: Start a new game
   In order to practice my tic-tac-toe skills
   As a player
-  I want to start a new game
+  I need to be able to start a new game
 
   Scenario: Choose to go first
     Given I have not started a game yet
