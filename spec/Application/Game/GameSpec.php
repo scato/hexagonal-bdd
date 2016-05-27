@@ -20,7 +20,7 @@ class GameSpec extends ObjectBehavior
         MoveGenerator $moveGenerator,
         Move $computerMove
     ) {
-        $this->beConstructedWith($id, $humanPlayer, $board, $computerPlayer, $moveGenerator);
+        $this->beConstructedWith($id, $humanPlayer, $board, $computerPlayer);
 
         $moveGenerator->generateMove($board)->willReturn($computerMove);
     }
@@ -45,9 +45,9 @@ class GameSpec extends ObjectBehavior
         $this->getComputerPlayer()->shouldBe($computerPlayer);
     }
 
-    function it_should_make_a_human_move(Move $humanMove, Board $board, Player $humanPlayer)
+    function it_should_make_a_human_move(Move $humanMove, Board $board, Player $humanPlayer, MoveGenerator $moveGenerator)
     {
-        $this->makeHumanMove($humanMove);
+        $this->makeHumanMove($humanMove, $moveGenerator);
 
         $board->makeMove($humanMove, $humanPlayer)->shouldHaveBeenCalled();
     }
@@ -55,11 +55,12 @@ class GameSpec extends ObjectBehavior
     function it_should_not_make_a_computer_move_if_the_human_is_first_to_move(
         Board $board,
         Move $computerMove,
-        Player $computerPlayer
+        Player $computerPlayer,
+        MoveGenerator $moveGenerator
     ) {
         $computerPlayer->isFirstToMove()->willReturn(false);
 
-        $this->start();
+        $this->start($moveGenerator);
 
         $board->makeMove($computerMove, $computerPlayer)->shouldNotHaveBeenCalled();
     }
@@ -67,11 +68,12 @@ class GameSpec extends ObjectBehavior
     function it_should_make_a_computer_move_if_the_computer_is_first_to_move(
         Board $board,
         Move $computerMove,
-        Player $computerPlayer
+        Player $computerPlayer,
+        MoveGenerator $moveGenerator
     ) {
         $computerPlayer->isFirstToMove()->willReturn(true);
 
-        $this->start();
+        $this->start($moveGenerator);
 
         $board->makeMove($computerMove, $computerPlayer)->shouldHaveBeenCalled();
     }
@@ -80,9 +82,10 @@ class GameSpec extends ObjectBehavior
         Move $humanMove,
         Board $board,
         Move $computerMove,
-        Player $computerPlayer
+        Player $computerPlayer,
+        MoveGenerator $moveGenerator
     ) {
-        $this->makeHumanMove($humanMove);
+        $this->makeHumanMove($humanMove, $moveGenerator);
 
         $board->makeMove($computerMove, $computerPlayer)->shouldHaveBeenCalled();
     }

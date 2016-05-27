@@ -20,15 +20,18 @@ class StartGameHandlerSpec extends ObjectBehavior
         UuidFactoryInterface $uuidFactory,
         UuidInterface $gameId,
         GameFactory $gameFactory,
-        Game $game
+        Game $game,
+        MoveGeneratorFactory $moveGeneratorFactory,
+        MoveGenerator $moveGenerator
     ) {
-        $this->beConstructedWith($gameRepository, $uuidFactory, $gameFactory);
+        $this->beConstructedWith($gameRepository, $uuidFactory, $gameFactory, $moveGeneratorFactory);
 
         $uuidFactory->fromString('1234')->willReturn($gameId);
         $gameFactory->create($gameId, 'X')->willReturn($game);
+        $moveGeneratorFactory->create()->willReturn($moveGenerator);
     }
 
-    function it_should_start_a_game(GameRepository $gameRepository, Game $game)
+    function it_should_start_a_game(GameRepository $gameRepository, Game $game, MoveGenerator $moveGenerator)
     {
         $command = new StartGameCommand();
         $command->gameId = '1234';
@@ -36,7 +39,7 @@ class StartGameHandlerSpec extends ObjectBehavior
 
         $this->handle($command);
 
-        $game->start()->shouldHaveBeenCalled();
+        $game->start($moveGenerator)->shouldHaveBeenCalled();
         $gameRepository->add($game)->shouldHaveBeenCalled();
     }
 }

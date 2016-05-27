@@ -7,19 +7,6 @@ use Ramsey\Uuid\UuidInterface;
 class GameFactory
 {
     /**
-     * @var MoveGeneratorFactory
-     */
-    private $moveGeneratorFactory;
-
-    /**
-     * @param MoveGeneratorFactory $moveGeneratorFactory
-     */
-    public function __construct(MoveGeneratorFactory $moveGeneratorFactory)
-    {
-        $this->moveGeneratorFactory = $moveGeneratorFactory;
-    }
-
-    /**
      * @param UuidInterface $gameId
      * @param $playerName
      * @return Game
@@ -28,9 +15,8 @@ class GameFactory
     {
         $humanPlayer = new Player($playerName);
         $computerPlayer = new Player($this->getOpponentName($playerName));
-        $moveGenerator = $this->moveGeneratorFactory->create();
 
-        return new Game($gameId, $humanPlayer, new Board(), $computerPlayer, $moveGenerator);
+        return new Game($gameId, $humanPlayer, new Board(), $computerPlayer);
     }
 
     /**

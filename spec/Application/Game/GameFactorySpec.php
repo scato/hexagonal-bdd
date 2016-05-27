@@ -12,13 +12,6 @@ use Ramsey\Uuid\UuidInterface;
 
 class GameFactorySpec extends ObjectBehavior
 {
-    function let(MoveGeneratorFactory $moveGeneratorFactory, MoveGenerator $moveGenerator)
-    {
-        $this->beConstructedWith($moveGeneratorFactory);
-
-        $moveGeneratorFactory->create()->willReturn($moveGenerator);
-    }
-
     function it_should_create_a_game(UuidInterface $gameId)
     {
         $this->create($gameId, Player::PLAYER_NAME_X)->shouldHaveType(Game::class);

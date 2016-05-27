@@ -27,29 +27,21 @@ class Game
     private $computerPlayer;
 
     /**
-     * @var MoveGenerator
-     */
-    private $moveGenerator;
-
-    /**
      * @param UuidInterface $id
      * @param Player $humanPlayer
      * @param Board $board
      * @param Player $computerPlayer
-     * @param MoveGenerator $moveGenerator
      */
     public function __construct(
         UuidInterface $id,
         Player $humanPlayer,
         Board $board,
-        Player $computerPlayer,
-        MoveGenerator $moveGenerator
+        Player $computerPlayer
     ) {
         $this->board = $board;
         $this->id = $id;
         $this->humanPlayer = $humanPlayer;
         $this->computerPlayer = $computerPlayer;
-        $this->moveGenerator = $moveGenerator;
     }
 
     /**
@@ -78,13 +70,13 @@ class Game
 
     /**
      * @param Move $move
-     * @return void
+     * @param MoveGenerator $moveGenerator
      */
-    public function makeHumanMove(Move $move)
+    public function makeHumanMove(Move $move, MoveGenerator $moveGenerator)
     {
         $this->board->makeMove($move, $this->humanPlayer);
 
-        $this->makeComputerMove();
+        $this->makeComputerMove($moveGenerator);
     }
 
     /**
@@ -96,20 +88,20 @@ class Game
     }
 
     /**
-     * @return void
+     * @param MoveGenerator $moveGenerator
      */
-    private function makeComputerMove()
+    private function makeComputerMove(MoveGenerator $moveGenerator)
     {
-        $this->board->makeMove($this->moveGenerator->generateMove($this->board), $this->computerPlayer);
+        $this->board->makeMove($moveGenerator->generateMove($this->board), $this->computerPlayer);
     }
 
     /**
-     * @return void
+     * @param MoveGenerator $moveGenerator
      */
-    public function start()
+    public function start(MoveGenerator $moveGenerator)
     {
         if ($this->computerPlayer->isFirstToMove()) {
-            $this->makeComputerMove();
+            $this->makeComputerMove($moveGenerator);
         }
     }
 }
