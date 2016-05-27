@@ -4,7 +4,7 @@ namespace Application;
 
 use Application\Game\GameRepository;
 use Application\Game\Move;
-use Application\Game\MoveGeneratorFactory;
+use Application\Game\MoveGenerator;
 use Ramsey\Uuid\UuidFactoryInterface;
 
 class MakeMoveHandler
@@ -20,23 +20,23 @@ class MakeMoveHandler
     private $uuidFactory;
 
     /**
-     * @var MoveGeneratorFactory
+     * @var MoveGenerator
      */
-    private $moveGeneratorFactory;
+    private $moveGenerator;
 
     /**
      * @param GameRepository $gameRepository
      * @param UuidFactoryInterface $uuidFactory
-     * @param MoveGeneratorFactory $moveGeneratorFactory
+     * @param MoveGenerator $moveGenerator
      */
     public function __construct(
         GameRepository $gameRepository,
         UuidFactoryInterface $uuidFactory,
-        MoveGeneratorFactory $moveGeneratorFactory
+        MoveGenerator $moveGenerator
     ) {
         $this->gameRepository = $gameRepository;
         $this->uuidFactory = $uuidFactory;
-        $this->moveGeneratorFactory = $moveGeneratorFactory;
+        $this->moveGenerator = $moveGenerator;
     }
 
     public function handle(MakeMoveCommand $command)
@@ -45,6 +45,6 @@ class MakeMoveHandler
         $game = $this->gameRepository->get($gameId);
         $move = new Move($command->x, $command->y);
 
-        $game->makeHumanMove($move, $this->moveGeneratorFactory->create());
+        $game->makeHumanMove($move, $this->moveGenerator);
     }
 }

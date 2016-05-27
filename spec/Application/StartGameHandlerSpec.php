@@ -21,14 +21,12 @@ class StartGameHandlerSpec extends ObjectBehavior
         UuidInterface $gameId,
         GameFactory $gameFactory,
         Game $game,
-        MoveGeneratorFactory $moveGeneratorFactory,
         MoveGenerator $moveGenerator
     ) {
-        $this->beConstructedWith($gameRepository, $uuidFactory, $gameFactory, $moveGeneratorFactory);
+        $this->beConstructedWith($gameRepository, $uuidFactory, $gameFactory, $moveGenerator);
 
         $uuidFactory->fromString('1234')->willReturn($gameId);
         $gameFactory->create($gameId, 'X')->willReturn($game);
-        $moveGeneratorFactory->create()->willReturn($moveGenerator);
     }
 
     function it_should_start_a_game(GameRepository $gameRepository, Game $game, MoveGenerator $moveGenerator)

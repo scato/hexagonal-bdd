@@ -4,7 +4,7 @@ namespace Application;
 
 use Application\Game\GameFactory;
 use Application\Game\GameRepository;
-use Application\Game\MoveGeneratorFactory;
+use Application\Game\MoveGenerator;
 use Ramsey\Uuid\UuidFactoryInterface;
 
 class StartGameHandler
@@ -25,26 +25,26 @@ class StartGameHandler
     private $gameFactory;
 
     /**
-     * @var MoveGeneratorFactory
+     * @var MoveGenerator
      */
-    private $moveGeneratorFactory;
+    private $moveGenerator;
 
     /**
      * @param GameRepository $gameRepository
      * @param UuidFactoryInterface $uuidFactory
      * @param GameFactory $gameFactory
-     * @param MoveGeneratorFactory $moveGeneratorFactory
+     * @param MoveGenerator $moveGenerator
      */
     public function __construct(
         GameRepository $gameRepository,
         UuidFactoryInterface $uuidFactory,
         GameFactory $gameFactory,
-        MoveGeneratorFactory $moveGeneratorFactory
+        MoveGenerator $moveGenerator
     ) {
         $this->gameRepository = $gameRepository;
         $this->uuidFactory = $uuidFactory;
         $this->gameFactory = $gameFactory;
-        $this->moveGeneratorFactory = $moveGeneratorFactory;
+        $this->moveGenerator = $moveGenerator;
     }
 
     public function handle(StartGameCommand $command)
@@ -53,7 +53,7 @@ class StartGameHandler
         $playerName = $command->playerName;
 
         $game = $this->gameFactory->create($gameId, $playerName);
-        $game->start($this->moveGeneratorFactory->create());
+        $game->start($this->moveGenerator);
 
         $this->gameRepository->add($game);
     }

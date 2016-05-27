@@ -7,7 +7,6 @@ use Application\Game\Game;
 use Application\Game\GameRepository;
 use Application\Game\Move;
 use Application\Game\MoveGenerator;
-use Application\Game\MoveGeneratorFactory;
 use Application\Game\Player;
 use Application\MakeMoveCommand;
 use PhpSpec\ObjectBehavior;
@@ -22,14 +21,12 @@ class MakeMoveHandlerSpec extends ObjectBehavior
         UuidFactoryInterface $uuidFactory,
         UuidInterface $gameId,
         Game $game,
-        MoveGeneratorFactory $moveGeneratorFactory,
         MoveGenerator $moveGenerator
     ) {
-        $this->beConstructedWith($gameRepository, $uuidFactory, $moveGeneratorFactory);
+        $this->beConstructedWith($gameRepository, $uuidFactory, $moveGenerator);
 
         $gameRepository->get($gameId)->willReturn($game);
         $uuidFactory->fromString('1234')->willReturn($gameId);
-        $moveGeneratorFactory->create()->willReturn($moveGenerator);
     }
 
     function it_should_make_a_move(Game $game, MoveGenerator $moveGenerator)
