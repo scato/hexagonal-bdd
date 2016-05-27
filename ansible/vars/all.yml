@@ -20,5 +20,5 @@ mysql:
 php:
     install: '1'
     ppa: php
-    packages: [php-cli, php-intl, php-mcrypt, php-mysql, php-xml]
+    packages: [php-cli, php-intl, php-mcrypt, php-mysql, php-xml, php-sqlite3]
 
