@@ -45,11 +45,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     private $moveGenerator;
 
     /**
-     * @var MoveGeneratorFactoryStub
-     */
-    private $moveGeneratorFactory;
-
-    /**
      * Initializes context.
      *
      * Every scenario gets its own context instance.
@@ -62,7 +57,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->moveGenerator = new MoveGeneratorStub([
             new Move(2, 2)
         ]);
-        $this->moveGeneratorFactory = new MoveGeneratorFactoryStub($this->moveGenerator);
     }
 
     /**
@@ -85,7 +79,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $handler = new StartGameHandler(
             $this->gameRepository,
             new UuidFactory(),
-            new GameFactory($this->moveGeneratorFactory)
+            new GameFactory(),
+            $this->moveGenerator
         );
         
         $handler->handle($command);
@@ -147,7 +142,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $command->x = 0;
         $command->y = 0;
 
-        $handler = new MakeMoveHandler($this->gameRepository, new UuidFactory());
+        $handler = new MakeMoveHandler($this->gameRepository, new UuidFactory(), $this->moveGenerator);
         $handler->handle($command);
     }
 
