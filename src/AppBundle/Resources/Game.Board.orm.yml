@@ -1,0 +1,5 @@
+Application\Game\Board:
+  type: embeddable
+  fields:
+    pieces:
+      type: json_array

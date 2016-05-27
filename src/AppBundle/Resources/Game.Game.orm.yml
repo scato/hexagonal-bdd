@@ -1,0 +1,9 @@
+Application\Game\Game:
+  type: entity
+  repositoryClass: \AppBundle\Repository\DoctrineGameRepository
+  id:
+    id:
+      type: uuid_binary
+  embedded:
+    board:
+      class: Application\Game\Board

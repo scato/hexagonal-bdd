@@ -53,11 +53,20 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
+        types:
+            uuid_binary:
+                class: Ramsey\Uuid\Doctrine\UuidBinaryType
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        mappings:
+            app:
+                mapping: true
+                type: yml
+                dir: "%kernel.root_dir%/../src/AppBundle/Resources"
+                prefix: "Application"
+                is_bundle: false
 
 # Swiftmailer Configuration
 swiftmailer:
