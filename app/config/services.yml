@@ -4,6 +4,27 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.start_game_handler:
+        class: Application\StartGameHandler
+        arguments:
+            - "@app.game_repository"
+            - "@app.uuid_factory"
+            - "@app.game_factory"
+            - "@app.move_generator"
+
+    app.game_repository:
+        class: AppBundle\Repository\DoctrineGameRepository
+        factory:
+            - "@doctrine.orm.default_entity_manager"
+            - "getRepository"
+        arguments:
+            - Application\Game\Game
+
+    app.uuid_factory:
+        class: Ramsey\Uuid\UuidFactory
+
+    app.game_factory:
+        class: Application\Game\GameFactory
+
+    app.move_generator:
+        class: AppBundle\MoveGenerator\RandomMoveGenerator
