@@ -13,7 +13,7 @@ nginx:
 mysql:
     install: '1'
     root_password: ''
-    database: db
+    database: app
     user: root
     password: ''
     dump: ''
