@@ -12,6 +12,8 @@ To prepare for the tutorial, make sure you have [Composer](https://getcomposer.o
 hexagonal-bdd$ composer install
 ```
 
+When prompted for configuration values, just keep pressing enter to select the defaults.
+
 Next, make sure you have [Vagrant](https://www.vagrantup.com/docs/installation/) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed, as well as [Ansible](http://docs.ansible.com/ansible/intro_installation.html), and then run:
 
 ```sh
