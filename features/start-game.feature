@@ -8,6 +8,7 @@ Feature: Start a new game
     When I start a game as player "X"
     Then I should see an empty board
 
+  @critical
   Scenario: Make a move
     Given I have started a game as player "X"
     When I make a move

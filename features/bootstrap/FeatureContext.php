@@ -27,7 +27,7 @@ use Repository\MoveGeneratorStub;
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements Context, SnippetAcceptingContext
+class FeatureContext implements Context
 {
     /**
      * @var UuidInterface
